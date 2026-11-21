@@ -197,3 +197,14 @@ app/src/main/
   depuração sem fio (`adb pair` + `adb connect`), junto com as checagens
   estáticas de build, permissões, assinatura e tamanho. O que foi conferido —
   e o que continua pendente — está em [`TESTES.md`](TESTES.md).
+
+## Licença
+
+Distribuído sob a licença **MIT** — veja [`LICENSE`](LICENSE). Em resumo: você
+pode usar, copiar, modificar, publicar, distribuir, sublicenciar e vender o
+software, desde que mantenha o aviso de copyright e a permissão em todas as
+cópias ou partes substanciais. O software vem **sem garantias**.
+
+O nome e o ícone do NoAdd identificam este projeto; a licença cobre o código, não
+implica endosso e não concede direitos sobre marcas de terceiros (WhatsApp é
+marca da Meta Platforms, Inc.).
