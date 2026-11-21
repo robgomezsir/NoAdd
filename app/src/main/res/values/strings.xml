@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">NoAdd</string>
+
+    <!-- Deixe vazio para esconder o item "Apoiar o projeto" na tela Sobre.
+         Cole aqui a URL de apoio (doação/tip genuíno, sem benefício digital). -->
+    <string name="support_url" translatable="false"></string>
+    <string name="support_project">Apoiar o projeto</string>
+
+    <string name="label_country">País</string>
+    <string name="label_number">Número com DDD</string>
+    <string name="hint_number">11 99999-9999</string>
+    <string name="label_message">Mensagem (opcional)</string>
+
+    <string name="action_open">Abrir conversa</string>
+    <string name="action_call">Ligar</string>
+    <string name="call_title">Ligar por</string>
+    <string name="call_phone">Telefone</string>
+    <string name="call_whatsapp_hint">Na conversa, toque no ícone de telefone para chamar</string>
+    <string name="action_share">Compartilhar link</string>
+    <string name="action_copy">Copiar link</string>
+    <string name="action_shortcut">Criar atalho</string>
+    <string name="menu_desc">Menu</string>
+    <string name="action_agenda">Agenda</string>
+    <string name="action_settings">Configurações</string>
+    <string name="action_about">Sobre</string>
+    <string name="action_import">Importar</string>
+    <string name="action_export">Exportar</string>
+    <string name="action_clear_all">Apagar tudo</string>
+    <string name="action_remove">Remover</string>
+    <string name="action_pin">Fixar com apelido</string>
+    <string name="action_unpin">Desafixar</string>
+    <string name="action_open_now">Abrir agora</string>
+
+    <string name="country_dialog_title">Escolher país</string>
+    <string name="country_search_hint">Buscar país ou DDI</string>
+    <string name="country_desc">País: %1$s, código %2$s</string>
+
+    <string name="warn_invalid">O número parece incompleto. Vou abrir assim mesmo.</string>
+    <string name="warning_no_app_title">WhatsApp não encontrado</string>
+    <string name="warning_no_app_message">Nenhum WhatsApp está instalado neste aparelho. Você pode abrir o link no navegador.</string>
+    <string name="open_browser">Abrir no navegador</string>
+
+    <string name="toast_copied">Link copiado</string>
+    <string name="toast_number_required">Digite um número primeiro</string>
+    <string name="toast_no_dialer">Nenhum app de telefone encontrado</string>
+    <string name="toast_shortcut_requested">Confirme o atalho na tela inicial</string>
+    <string name="toast_shortcut_unsupported">Atalhos fixos precisam de Android 8 ou superior</string>
+    <string name="toast_shortcut_exists">Esse atalho já existe</string>
+    <string name="toast_imported">%1$d número(s) importado(s)</string>
+    <string name="toast_nothing_export">A agenda está vazia</string>
+    <string name="toast_saved">Arquivo salvo</string>
+    <string name="toast_save_failed">Não foi possível salvar o arquivo</string>
+
+    <string name="agenda_title">Agenda</string>
+    <string name="agenda_empty">Os números que você usar aparecem aqui. Fixe os favoritos para acessar rápido.</string>
+    <string name="agenda_pinned">Fixado</string>
+    <string name="pin_title">Apelido do número</string>
+    <string name="pin_hint">Ex.: João</string>
+
+    <string name="export_title">Exportar agenda</string>
+    <string name="export_share">Compartilhar como texto</string>
+    <string name="export_save">Salvar arquivo .txt</string>
+    <string name="export_header"># Agenda do NoAdd</string>
+    <string name="import_title">Importar números</string>
+    <string name="import_hint">Um por linha, com DDI. Opcional: Apelido; número</string>
+    <string name="clear_title">Apagar tudo?</string>
+    <string name="clear_message">Isso remove fixados e recentes salvos neste aparelho.</string>
+
+    <string name="settings_title">Configurações</string>
+    <string name="settings_keep_prefix">Manter o código do país depois de abrir</string>
+    <string name="settings_save_recents">Salvar os números recentes</string>
+    <string name="settings_auto_open">Abrir sozinho ao colar um número válido</string>
+    <string name="settings_tel">Abrir links de telefone (tel:) neste app</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_limit">Máximo de recentes</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Escuro</string>
+
+    <string name="about_title">Sobre</string>
+    <string name="about_body">NoAdd %1$s\n\nAbra uma conversa sem salvar o número na agenda.\n\nNenhum dado é coletado ou enviado: tudo fica no seu aparelho. Sem anúncios, sem permissões desnecessárias e sem rastreamento.\n\nEste app não é afiliado nem endossado pelo WhatsApp Inc.</string>
+
+    <string name="shortcut_title">Nome do atalho</string>
+    <string name="shortcut_hint">Ex.: Maria</string>
+    <string name="shortcut_open_short">Abrir chat</string>
+    <string name="shortcut_open_long">Digitar um número</string>
+    <string name="shortcut_chat_long">Conversa com %1$s</string>
+
+    <string name="chooser_title">Abrir com</string>
+    <string name="whatsapp_name" translatable="false">WhatsApp</string>
+    <string name="whatsapp_business_name" translatable="false">WhatsApp Business</string>
+    <string name="chat_default">Padrão do sistema</string>
+</resources>

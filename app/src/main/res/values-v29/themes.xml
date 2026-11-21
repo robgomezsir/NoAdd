@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="NoAdd.Palette.Auto" parent="@android:style/Theme.DeviceDefault.DayNight">
+        <item name="noAddCanvasTop">#FFEDF2FC</item>
+        <item name="noAddCanvasBottom">#FFD6E2F5</item>
+        <item name="noAddGlowPrimary">#B3A9C7F2</item>
+        <item name="noAddGlowSecondary">#B3BFEBF7</item>
+        <item name="noAddGlass">#B8FFFFFF</item>
+        <item name="noAddGlassStrong">#D9FFFFFF</item>
+        <item name="noAddStroke">#80FFFFFF</item>
+        <item name="noAddHairline">#260B1B33</item>
+        <item name="noAddInk">#FF0B1B33</item>
+        <item name="noAddInkMuted">#FF4C5F7C</item>
+        <item name="noAddAccent">#FF0E4FBF</item>
+        <item name="noAddAccentInk">#FFFFFFFF</item>
+        <item name="noAddRipple">#330B1B33</item>
+        <item name="android:colorAccent">#FF0E4FBF</item>
+        <item name="android:colorControlActivated">#FF0E4FBF</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowBackground">?attr/noAddCanvasBottom</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.NoAdd" parent="NoAdd.Palette.Auto" />
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="screen_padding">24dp</dimen>
+    <dimen name="gap">12dp</dimen>
+    <dimen name="touch">56dp</dimen>
+    <dimen name="radius_panel">26dp</dimen>
+    <dimen name="radius_pill">28dp</dimen>
+</resources>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="support_project">Apoyar el proyecto</string>
+
+    <string name="label_country">País</string>
+    <string name="label_number">Número con prefijo</string>
+    <string name="hint_number">11 9999-9999</string>
+    <string name="label_message">Mensaje (opcional)</string>
+
+    <string name="action_open">Abrir chat</string>
+    <string name="action_call">Llamar</string>
+    <string name="call_title">Llamar con</string>
+    <string name="call_phone">Teléfono</string>
+    <string name="call_whatsapp_hint">En el chat, toca el icono de teléfono para llamar</string>
+    <string name="action_share">Compartir enlace</string>
+    <string name="action_copy">Copiar enlace</string>
+    <string name="action_shortcut">Crear acceso directo</string>
+    <string name="menu_desc">Menú</string>
+    <string name="action_agenda">Historial</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="action_about">Acerca de</string>
+    <string name="action_import">Importar</string>
+    <string name="action_export">Exportar</string>
+    <string name="action_clear_all">Borrar todo</string>
+    <string name="action_remove">Eliminar</string>
+    <string name="action_pin">Fijar con alias</string>
+    <string name="action_unpin">Quitar</string>
+    <string name="action_open_now">Abrir ahora</string>
+
+    <string name="country_dialog_title">Elegir país</string>
+    <string name="country_search_hint">Buscar país o prefijo</string>
+    <string name="country_desc">País: %1$s, prefijo %2$s</string>
+
+    <string name="warn_invalid">El número parece incompleto. Abriendo igual.</string>
+    <string name="warning_no_app_title">WhatsApp no encontrado</string>
+    <string name="warning_no_app_message">WhatsApp no está instalado en este dispositivo. Puedes abrir el enlace en el navegador.</string>
+    <string name="open_browser">Abrir en el navegador</string>
+
+    <string name="toast_copied">Enlace copiado</string>
+    <string name="toast_number_required">Escribe un número primero</string>
+    <string name="toast_no_dialer">No se encontró ninguna app de teléfono</string>
+    <string name="toast_shortcut_requested">Confirma el acceso directo en la pantalla de inicio</string>
+    <string name="toast_shortcut_unsupported">Los accesos fijos necesitan Android 8 o superior</string>
+    <string name="toast_shortcut_exists">Ese acceso directo ya existe</string>
+    <string name="toast_imported">%1$d número(s) importado(s)</string>
+    <string name="toast_nothing_export">El historial está vacío</string>
+    <string name="toast_saved">Archivo guardado</string>
+    <string name="toast_save_failed">No se pudo guardar el archivo</string>
+
+    <string name="agenda_title">Historial</string>
+    <string name="agenda_empty">Los números que uses aparecen aquí. Fija los favoritos para acceder rápido.</string>
+    <string name="agenda_pinned">Fijado</string>
+    <string name="pin_title">Alias del número</string>
+    <string name="pin_hint">Ej.: Juan</string>
+
+    <string name="export_title">Exportar historial</string>
+    <string name="export_share">Compartir como texto</string>
+    <string name="export_save">Guardar archivo .txt</string>
+    <string name="export_header"># Historial de NoAdd</string>
+    <string name="import_title">Importar números</string>
+    <string name="import_hint">Uno por línea, con prefijo. Opcional: Alias; número</string>
+    <string name="clear_title">¿Borrar todo?</string>
+    <string name="clear_message">Esto elimina fijados y recientes guardados en este dispositivo.</string>
+
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_keep_prefix">Mantener el prefijo del país después de abrir</string>
+    <string name="settings_save_recents">Guardar los números recientes</string>
+    <string name="settings_auto_open">Abrir solo al pegar un número válido</string>
+    <string name="settings_tel">Abrir enlaces de teléfono (tel:) en esta app</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_limit">Máximo de recientes</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+
+    <string name="about_title">Acerca de</string>
+    <string name="about_body">NoAdd %1$s\n\nAbre un chat sin guardar el número en los contactos.\n\nNo se recopila ni se envía ningún dato: todo queda en tu dispositivo. Sin anuncios, sin permisos innecesarios y sin rastreo.\n\nEsta app no está afiliada ni respaldada por WhatsApp Inc.</string>
+
+    <string name="shortcut_title">Nombre del acceso directo</string>
+    <string name="shortcut_hint">Ej.: María</string>
+    <string name="shortcut_open_short">Abrir chat</string>
+    <string name="shortcut_open_long">Escribir un número</string>
+    <string name="shortcut_chat_long">Chat con %1$s</string>
+
+    <string name="chooser_title">Abrir con</string>
+    <string name="chat_default">Predeterminado del sistema</string>
+</resources>

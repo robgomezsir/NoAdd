@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="noAddCanvasTop" format="color" />
+    <attr name="noAddCanvasBottom" format="color" />
+    <attr name="noAddGlowPrimary" format="color" />
+    <attr name="noAddGlowSecondary" format="color" />
+    <attr name="noAddGlass" format="color" />
+    <attr name="noAddGlassStrong" format="color" />
+    <attr name="noAddStroke" format="color" />
+    <attr name="noAddHairline" format="color" />
+    <attr name="noAddInk" format="color" />
+    <attr name="noAddInkMuted" format="color" />
+    <attr name="noAddAccent" format="color" />
+    <attr name="noAddAccentInk" format="color" />
+    <attr name="noAddRipple" format="color" />
+</resources>
