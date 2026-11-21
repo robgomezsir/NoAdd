@@ -12,42 +12,76 @@ terceiros.
 
 > Este app não é afiliado nem endossado pelo WhatsApp Inc.
 
+## Download
+
+APK assinado na release mais recente:
+<https://github.com/robgomezsir/NoAdd/releases/latest> (`app-release.apk`, ~100 KB,
+Android 7.0+).
+
 ## Tamanho medido (release com R8 + shrinkResources)
 
 | Artefato | Bytes | Aprox. |
 | --- | ---: | ---: |
-| `app-release.apk` (assinado) | 78.769 | 77 KiB |
-| `app-release.aab` (assinado) | 105.159 | 103 KiB |
-| `app-debug.apk` (referência) | 960.330 | 938 KiB |
+| `app-release.apk` (assinado) | 101.533 | 99 KiB |
+| `app-release.aab` (assinado) | 129.634 | 127 KiB |
+| `app-debug.apk` (referência) | 983.984 | 961 KiB |
 
 Meta do projeto: APK/AAB abaixo de 300 KB — atendida com folga. O maior bloco do
-APK é o `classes.dex` (~58 KB descomprimido), seguido do `resources.arsc`
-(~16 KB) e dos metadados do `kotlin-stdlib` (`kotlin/*.kotlin_builtins`).
+APK é o `classes.dex` (63.084 bytes descomprimidos), seguido dos metadados do
+`kotlin-stdlib` (`kotlin/*.kotlin_builtins`, 29.399 bytes) e do `resources.arsc`
+(20.228 bytes). O ícone em PNG soma ~24 KB no fonte (12 arquivos: camada
+adaptativa, monocromática e os mipmaps legados).
 
 Idiomas embarcados: pt-BR (padrão), en, es (`androidResources.localeFilters`).
 
 ## Sistema visual — "Abissal"
 
-Vidro sobre azul-marinho. Nada de imagens: o fundo é um gradiente vertical com
-dois brilhos radiais desenhados por shaders (`AuroraView.kt`), e o vidro é
-feito de preenchimento translúcido + fio de 1dp + raio de 26dp.
+Vidro sobre azul-marinho, tudo desenhado em código: o fundo é um gradiente
+vertical com dois brilhos radiais por shaders (`AuroraView.kt`) e o vidro é
+preenchimento translúcido + fio de 1dp + raio de 26dp. A **única imagem** do app
+é o ícone, derivado da arte do balão (ver abaixo).
 
+- **Sem faixa de título**: as três paletas de tema definem
+  `android:windowActionBar=false` e `android:windowNoTitle=true`, então nem a
+  barra do sistema nem um wordmark dentro do conteúdo mostram "NoAdd". A tela
+  abre direto no painel.
+- **Menu dentro do painel**: uma cápsula de vidro de 48dp com o ícone de três
+  linhas (`ic_menu.xml`) no topo do painel abre, por `PopupMenu`, Agenda,
+  Configurações e Sobre. Na Agenda o mesmo botão fica ao lado do título e abre
+  Importar, Exportar e Apagar tudo.
+- **Conteúdo centralizado**: a `ScrollView` usa `fillViewport` e o container tem
+  `gravity="center_vertical"`, com `Ui.applySymmetricSystemBarsPadding`
+  equalizando o inset superior e o inferior para o painel ficar no centro exato
+  da tela (medido em 1199,5 px de uma tela de 2400 px no moto g56 5G). Em telas
+  baixas ou com o teclado aberto o conteúdo rola normalmente.
+- **Ações dentro da folha de vidro**: "Abrir conversa" (cápsula sólida de
+  destaque), "Compartilhar link" / "Copiar link", "Ligar" / "Criar atalho", todas
+  com 56dp de altura e feedback de toque.
 - **Cores** (tokens de tema em `res/values/attrs.xml`, definidos nas paletas
   `NoAdd.Palette.Light` (Geada), `NoAdd.Palette.Dark` (Abissal) e
   `NoAdd.Palette.Auto`): `canvasTop/Bottom` (azul-marinho), `glowPrimary`
   (azul), `glowSecondary` (ciano), `glass`, `glassStrong`, `stroke`,
   `hairline`, `ink`, `inkMuted`, `accent` (ciano gelo no escuro, azul profundo
   no claro), `accentInk` e `ripple`.
-- **Tipografia**: sistema em `sans-serif-medium` para wordmark, rótulos e
-  número; rótulos em caixa alta com `letterSpacing` 0.16 e o wordmark com 0.34.
-  Nenhuma fonte embarcada de propósito: uma família display acrescentaria
-  ~100 KB a um app de 78 KB.
-- **Composição**: uma única folha de vidro com o número como herói, ações em
-  cápsulas (uma sólida de destaque e duas de vidro) e muito espaço negativo.
+- **Tipografia**: fonte do sistema em `sans-serif-medium` para rótulos e número;
+  rótulos em caixa alta com `letterSpacing` 0.16. Nenhuma fonte embarcada de
+  propósito: uma família display acrescentaria ~100 KB a um app de ~100 KB.
 - **Movimento**: uma entrada só — a folha sobe 18dp e aparece em 260ms.
-- **Limite honesto**: é vidro *simulado* (translucidez + realce), não
-  desfoque real de fundo. Blur de backdrop exigiria `RenderEffect`/blur de
-  janela (API 31+) por painel, o que sai do orçamento de simplicidade.
+- **Limite honesto**: é vidro *simulado* (translucidez + realce), não desfoque
+  real de fundo. Blur de backdrop exigiria `RenderEffect`/blur de janela
+  (API 31+) por painel, o que sai do orçamento de simplicidade.
+
+### Ícone
+
+Derivado da arte do balão (balão verde com a ponta, anel vermelho de proibido e
+contato creme), recortada da imagem original e convertida em PNG quantizado:
+
+- `res/drawable-xxxhdpi/ic_launcher_foreground.png` (432px, arte inteira) sobre
+  fundo branco (`icon_bg`) no ícone adaptativo;
+- `res/drawable-xxxhdpi/ic_launcher_monochrome.png` para ícones temáticos;
+- `res/mipmap-mdpi…xxxhdpi/ic_launcher{,_round}.png` (48–192px) para Android 7,
+  com a arte completa;
+- `ic_shortcut.xml` (vetorial) na mesma paleta, para o atalho estático.
 
 ## Requisitos
 
@@ -111,28 +145,40 @@ app/src/main/
   AndroidManifest.xml            zero permissões; queries do WhatsApp; alias tel: desativado
   kotlin/com/noadd/app/
     AuroraView.kt                fundo aurora azul-marinho (shaders, sem imagens)
-    MainActivity.kt              tela principal, intents, configurações, sobre
+    MainActivity.kt              tela principal, menu no painel, Ligar, intents, configurações, sobre
     AgendaActivity.kt            recentes/fixados, importar/exportar
     Phone.kt                     normalização, 9º dígito BR, validação branda, extração
     Countries.kt                 tabela embutida de países (bandeira derivada do ISO)
     ChatIntents.kt               link wa.me, compartilhar, copiar, pacotes instalados
     Prefs.kt                     SharedPreferences + org.json (sem banco, sem rede)
     Shortcuts.kt                 atalho fixo via ShortcutManager
-    Ui.kt                        tema e insets do sistema
+    Ui.kt                        tema, insets e padding simétrico das barras
   res/layout/                    activity_main, activity_agenda, item_entry, dialog_settings
-  res/menu/                      main, agenda
+  res/menu/                      main, agenda (inflados pelo PopupMenu)
   res/xml/                       shortcuts, backup_rules, data_extraction_rules
-  res/drawable|mipmap-anydpi*/   vidro (bg_*, btn_*), ícone adaptativo + monochrome
+  res/drawable/                  vidro (bg_*, btn_*) e ícones vetoriais (ic_menu, ic_shortcut)
+  res/drawable-xxxhdpi/          ícone adaptativo em PNG (arte do balão) + monocromático
+  res/mipmap-mdpi…xxxhdpi/       ícones legados 48–192px (arte original com o balão)
+  res/mipmap-anydpi-v26/         ícone adaptativo (fundo branco + camada monocromática)
   res/values{,-en,-es}/          strings; values-night e values-v29 para tema
   res/values/attrs.xml           tokens de cor do vidro (13 atributos de tema)
+  res/values/colors.xml          cor de fundo do ícone (branco)
 ```
 
 ## Decisões e limites conhecidos
 
 - **Tema**: `Theme.DeviceDefault.DayNight` (API 29+) com variantes manuais para
-  API 24–28. O usuário escolhe Sistema/Claro/Escuro. Paleta Material You
-  dinâmica completa não é possível sem Material Components, o que estouraria o
-  orçamento de tamanho; o app usa o acento do sistema.
+  API 24–28, sem ActionBar. O usuário escolhe Sistema/Claro/Escuro. Paleta
+  Material You dinâmica completa não é possível sem Material Components, o que
+  estouraria o orçamento de tamanho; o app usa o acento do sistema.
+- **Ligar**: o botão abre um diálogo com **WhatsApp** e **Telefone**. O WhatsApp
+  não expõe intent público de chamada de voz para um número que não está na
+  agenda (o `whatsapp://call` do app é interno e a chamada só é disparável pelo
+  próprio WhatsApp ou por um contato salvo com o mimetype
+  `vnd.android.cursor.item/vnd.com.whatsapp.voip.call`, o que exigiria
+  `READ_CONTACTS`). Por isso a opção WhatsApp abre a conversa, onde ficam os
+  botões de chamada de voz e vídeo. A opção Telefone usa `ACTION_DIAL`, que
+  apenas abre o discador com o número — discar não exige permissão.
 - **Sem permissões**: atalhos usam `ShortcutManager.requestPinShortcut` (não
   precisa de `INSTALL_SHORTCUT`); copiar usa `ClipboardManager`; exportar `.txt`
   usa `ACTION_CREATE_DOCUMENT`; importar é por texto colado.
@@ -147,7 +193,7 @@ app/src/main/
   `R.string.support_url` tiver uma URL. A política de pagamentos do Google Play
   só permite link externo em doação/tip genuíno (100% para o criador, sem
   benefício digital); qualquer vantagem dentro do app exigiria Play Billing.
-- **Verificação**: este ambiente não tem aparelho nem emulador. A compilação, as
-  permissões do APK e o algoritmo de normalização foram verificados; o
-  comportamento de UI, atalhos e intents precisa ser testado em um celular
-  (`TESTES.md`).
+- **Verificação**: o app foi instalado e exercitado em um moto g56 5G via
+  depuração sem fio (`adb pair` + `adb connect`), junto com as checagens
+  estáticas de build, permissões, assinatura e tamanho. O que foi conferido —
+  e o que continua pendente — está em [`TESTES.md`](TESTES.md).
