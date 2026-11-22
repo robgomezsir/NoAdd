@@ -10,10 +10,14 @@
       idiomas `--_--`, `en`, `es`.
 - [x] Assinatura de release conferida com `apksigner verify`: APK Signature
       Scheme v2 válido, certificado `CN=NoAdd`, RSA 4096.
-- [x] Tamanho: APK assinado 101.533 bytes, AAB assinado 129.634 bytes,
-      `app-debug.apk` 983.984 bytes. O maior bloco do APK é o `classes.dex`
-      (63.084 bytes), seguido de `kotlin/*.kotlin_builtins` (29.399) e
-      `resources.arsc` (20.228); o ícone em PNG soma ~24 KB no fonte.
+- [x] Tamanho: APK assinado 200.589 bytes, AAB assinado 255.707 bytes,
+      `app-debug.apk` 1.100.414 bytes. O maior bloco do APK é o `classes.dex`
+      (126.144 bytes), seguido de `resources.arsc` (50.660); o ícone em PNG soma
+      ~56 KB no fonte.
+- [x] Nenhuma permissão nova com o lote e o arquivo de treinamento: o
+      `aapt2 dump permissions` do APK só devolve o nome do pacote, e o
+      `AndroidManifest.xml` continua sem `<uses-permission>` (importar e abrir
+      conversa usam SAF e `https://wa.me/...`).
 - [x] Todos os 13 tokens de cor do vidro existem em `attrs.xml` e estão
       definidos nas paletas Light, Dark e Auto.
 - [x] Algoritmo de número executado em JVM (22 casos, todos OK): DDI com/sem `+`,
@@ -42,11 +46,74 @@ instalado por cima da versão existente (dados preservados).
         (nenhuma chamada feita).
       - "WhatsApp" abre `com.whatsapp/.Conversation` na conversa do número, sem
         mensagem enviada.
-- [x] **Ícone novo** (arte do balão verde com anel vermelho) visível na gaveta de
-      apps, sem artefatos.
+- [x] **Ícone**: a arte atual (balão verde-limão com anel vermelho e contato
+      creme) aparece em Informações do app, na gaveta e nos atalhos, sem
+      artefatos; camada adaptativa sobre o branco de `icon_bg`, mipmaps legados a
+      partir dos mesmos PNGs e monocromático com o balão sólido vazado.
 - [x] Nenhum crash do `com.noadd.app` no `logcat` durante a sessão.
 
+## Verificado no aparelho — lote (mensagem, nomes e treinamento)
+
+Sessão de 22/11/2026 na mesma depuração sem fio (moto g56 5G), APK de release
+assinado, lista montada com 3 contatos: “Maria Silva”, “Joao Pedro Souza” e um
+número sem nome.
+
+- [x] **Saudação padrão só na primeira vez**: com a mensagem apagada (campo
+      vazio), voltei ao passo 1 e avancei de novo → o campo continuou vazio e a
+      prévia mostrou “A mensagem está vazia.” O texto padrão não volta por cima
+      da escolha do usuário.
+- [x] **Dados do treinamento (1 linha, `;`)**: o resumo de conferência trouxe
+      Produto, Cargo, Endereço (com a vírgula do endereço preservada), Hora, Data,
+      Período e Instrutor; ao aplicar, a mensagem do campo foi preenchida com os
+      valores, mantendo `{nome}` variável, emojis e quebras de linha.
+- [x] **Prévia**: “Olá, Maria Silva, tudo bem? 😊 … Treinamento de Operador de
+      Telemarketing … Endereço: Av. Paulista, 1000 …”; contador “459 caracteres na
+      mensagem · 873 no link” (sem aviso, abaixo de 2.000).
+- [x] **Ver exemplo de outro contato**: Maria Silva → Joao Pedro Souza → contato
+      sem nome, que rendeu “Olá, tudo bem?” (vírgula sobrando removida).
+- [x] **Link no WhatsApp**: o `logcat` mostrou
+      `https://wa.me/5511999990000?text=…` com `%F0%9F%98%8A`, `%F0%9F%93%8B`,
+      `%F0%9F%93%8D`, `%F0%9F%95%91`, `%F0%9F%93%85`, `%F0%9F%94%84`,
+      `%F0%9F%91%A4`, `%F0%9F%AA%91`, `%E2%9A%A0%EF%B8%8F`, acentos em UTF-8 e
+      quebras como `%0A`. O número de teste não existe no WhatsApp, então o
+      WhatsApp abriu o seletor de contatos: nada foi enviado.
+- [x] **Cabeçalho com acento e vírgula** (`Produto,Cargo,Endereço,Hora,Data,Período,Instrutor`):
+      lido certo (Período “Tarde”, Instrutor “João Pereira”); aplicado, o texto e
+      o resumo “Treinamento: ATENTO · Atendente · 26/11/2026 · 09:30” passaram a
+      valer e continuaram salvos.
+- [x] **Arquivo com várias linhas**: aviso “O arquivo tem 2 linhas de dados. Esta
+      versão usa a primeira.” e a primeira turma foi aplicada (Analista / Ana
+      Costa).
+- [x] **Colunas faltando**: “Colunas não encontradas: Endereço, Hora, Período,
+      Instrutor.” e os campos apareceram como “vazio”, na cor de destaque; a
+      prévia passou a mostrar “Sem dado: Endereço, Hora, Período, Instrutor.”.
+- [x] **Variável desconhecida**: `{foo}` digitado no texto continuou no corpo da
+      mensagem e foi sinalizado com “Variável não reconhecida: {foo}.”.
+- [x] **BOM e serial do Excel** (`tr6.csv`): o BOM UTF-8 foi ignorado e a data
+      serial `46004` virou `13/12/2025` (dd/MM/aaaa); Hora `07:00` ficou intacta.
+- [x] **Modelo de treinamento**: o texto aplicado aparece na lista de modelos como
+      “Modelo de treinamento”.
+- [x] **Retomada**: fechar o app (e reinstalar o APK por cima) preservou contatos,
+      progresso, mensagem e o resumo “Treinamento: …” carregado.
+- [x] **Sem crash** do `com.noadd.app` no `logcat` durante a sessão.
+- [x] Bug encontrado e corrigido no teste: quando o arquivo tinha cabeçalho mas
+      faltava uma coluna, o campo vazio lia a coluna vizinha (Endereço recebia a
+      data). Agora campo sem coluna é vazio; o release foi rebuildado e
+      reinstalado, e o caso foi repetido com sucesso.
+
 ## Pendentes no aparelho
+
+### Lote e treinamento
+
+- [ ] Envio real da mensagem de treinamento por um contato que exista no WhatsApp
+      (só o link e a prévia foram conferidos; nada foi enviado).
+- [ ] Mesma tela nos idiomas en e es (só pt-BR foi exercitado no aparelho).
+- [ ] Escolha de turma quando o arquivo de treinamento tem várias linhas: nesta
+      versão o app avisa e usa a primeira; a lista de turmas fica para a próxima.
+- [ ] Arquivo de treinamento com DATA/HORA ausentes ou com hora serial do Excel
+      (a data serial já foi convertida; a hora serial não é tratada).
+- [ ] Importação do segundo arquivo por um provedor de nuvem (Drive/OneDrive) no
+      seletor do sistema.
 
 ### Número
 

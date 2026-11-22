@@ -15,22 +15,24 @@ terceiros.
 ## Download
 
 APK assinado na release mais recente:
-<https://github.com/robgomezsir/NoAdd/releases/latest> (`app-release.apk`, ~100 KB,
+<https://github.com/robgomezsir/NoAdd/releases/latest> (`app-release.apk`, ~196 KB,
 Android 7.0+).
 
 ## Tamanho medido (release com R8 + shrinkResources)
 
 | Artefato | Bytes | Aprox. |
 | --- | ---: | ---: |
-| `app-release.apk` (assinado) | 101.533 | 99 KiB |
-| `app-release.aab` (assinado) | 129.634 | 127 KiB |
-| `app-debug.apk` (referência) | 983.984 | 961 KiB |
+| `app-release.apk` (assinado) | 200.589 | 196 KiB |
+| `app-release.aab` (assinado) | 255.707 | 250 KiB |
+| `app-debug.apk` (referência) | 1.100.414 | 1,05 MiB |
 
 Meta do projeto: APK/AAB abaixo de 300 KB — atendida com folga. O maior bloco do
-APK é o `classes.dex` (63.084 bytes descomprimidos), seguido dos metadados do
-`kotlin-stdlib` (`kotlin/*.kotlin_builtins`, 29.399 bytes) e do `resources.arsc`
-(20.228 bytes). O ícone em PNG soma ~24 KB no fonte (12 arquivos: camada
-adaptativa, monocromática e os mipmaps legados).
+APK é o `classes.dex` (126.144 bytes descomprimidos), seguido dos metadados do
+`kotlin-stdlib` e do `resources.arsc` (50.660 bytes). O ícone em PNG soma ~56 KB
+no fonte (12 arquivos: camada adaptativa, monocromática e os mipmaps legados) e o
+lote (três passos, leitor do arquivo de treinamento e modelos) acrescentou ~35 KB
+ao `classes.dex` e ~30 KB ao `resources.arsc` (novas telas e strings em três
+idiomas).
 
 Idiomas embarcados: pt-BR (padrão), en, es (`androidResources.localeFilters`).
 
@@ -73,15 +75,21 @@ preenchimento translúcido + fio de 1dp + raio de 26dp. A **única imagem** do a
 
 ### Ícone
 
-Derivado da arte do balão (balão verde com a ponta, anel vermelho de proibido e
-contato creme), recortada da imagem original e convertida em PNG quantizado:
+Derivado da arte do balão — balão verde-limão com a ponta, anel vermelho de
+proibido e contato creme. O desenho é recortado pelo retângulo da arte (sem a
+margem branca do arquivo original), reduzido com Lanczos e paletizado em 96
+cores, o que mantém o traço nítido em 48px por poucos KB:
 
-- `res/drawable-xxxhdpi/ic_launcher_foreground.png` (432px, arte inteira) sobre
-  fundo branco (`icon_bg`) no ícone adaptativo;
-- `res/drawable-xxxhdpi/ic_launcher_monochrome.png` para ícones temáticos;
+- `res/drawable-xxxhdpi/ic_launcher_foreground.png` (432px, arte a 60% do lado,
+  dentro da zona segura) sobre o fundo branco (`icon_bg`) do ícone adaptativo;
+- `res/drawable-xxxhdpi/ic_launcher_monochrome.png` para ícones temáticos: o
+  balão sólido em branco, com o contato e o corte vazados (alfa);
 - `res/mipmap-mdpi…xxxhdpi/ic_launcher{,_round}.png` (48–192px) para Android 7,
-  com a arte completa;
+  com a arte a 80% do lado sobre branco;
 - `ic_shortcut.xml` (vetorial) na mesma paleta, para o atalho estático.
+
+A geração é reproduzível: `python arte/gerar_icones.py` relê
+`arte/icone.webp` (o desenho de origem) e grava os 12 PNGs.
 
 ## Requisitos
 
@@ -138,6 +146,47 @@ O release já sai assinado neste ambiente. A chave está em `noadd-release.jks`
   `keyPassword` em `keystore.properties`; o build lê esse arquivo.
 - Na Play Store, suba o `.aab` com **Play App Signing** ativado.
 
+## Lote (envio semi-manual)
+
+O chip **Lote** na tela principal abre três passos: importar a lista, escrever a
+mensagem e percorrer a fila. Quem toca em enviar é sempre o usuário, no WhatsApp:
+o app só monta o link e abre uma conversa por vez.
+
+- **Lista**: CSV/TXT (`Nome;Sobrenome;Telefone`, `Nome;Telefone` ou só telefones),
+  colagem do Excel, contato da agenda ou digitação. Números lidos vão para a
+  fila; os que não puderam ser lidos ficam em "Para revisar".
+- **Nome e sobrenome**: os cabeçalhos `Nome` e `Sobrenome` são lidos em colunas
+  separadas; uma coluna única `Nome` com o nome completo é dividida no último
+  espaço. Cada contato guarda as duas partes (exibidas como `fullName`).
+- **Saudação padrão**: na primeira abertura a mensagem já vem com
+  `Olá, {nome}, tudo bem?` (traduzida em en/es). Se o usuário apagar o texto, ele
+  continua vazio — a saudação **não** volta por cima da escolha dele.
+  `{nome}` vira o nome completo e `{primeiro_nome}` o primeiro nome de cada
+  contato; sem nome, a vírgula sobrando sai ("Olá, tudo bem?").
+- **Dados do treinamento (segundo arquivo)**: o botão "Carregar dados do
+  treinamento", abaixo do campo de mensagem, abre o seletor do sistema
+  (`ACTION_OPEN_DOCUMENT`, nenhuma permissão) e lê um CSV/TXT com
+  `PRODUTO;CARGO;ENDERECO;HORA;DATA;PERIODO;INSTRUTOR`. O separador (`;`, `,` ou
+  tabulação) é detectado, o BOM UTF-8 é ignorado e os cabeçalhos casam sem
+  diferenciar maiúsculas/acentos e em qualquer ordem (`ENDERECO` = `endereço`).
+  O app mostra um resumo para conferência — campos vazios destacados, com aviso
+  e opção de continuar —, preenche a mensagem com o modelo do RH (emojis e
+  quebras de linha preservados, só `{nome}` continua variável) e guarda o texto
+  como **"Modelo de treinamento"** na lista de modelos. `DATA` e `HORA` ficam
+  como estão no arquivo; um serial de data do Excel vira `dd/MM/aaaa`. Nesta
+  versão o arquivo deve ter **uma linha de dados**; com várias, a primeira é
+  usada e o app avisa. Exemplo em [`exemplos/treinamento.csv`](exemplos/treinamento.csv).
+- **Prévia**: mostra a mensagem final do contato atual, com "Ver exemplo de
+  outro contato", contador de caracteres, tamanho do link e aviso quando o link
+  passa de 2.000 caracteres. Variável desconhecida fica no texto e é sinalizada.
+- **Fila**: status Pendente / Aberto / Enviado / Pulado, limite por sessão,
+  lembrete por intervalo e "avançar ao voltar" (opcional). Contatos, revisão,
+  progresso e a turma carregada ficam em SharedPreferences (`noadd_batch`) para
+  retomar depois.
+- **Sem permissões**: importar e exportar usam o Storage Access Framework, e
+  abrir a conversa usa `https://wa.me/<DDI><número>?text=<mensagem>` com
+  URL-encode UTF-8 — emojis, acentos e `%0A` chegam íntegros.
+
 ## Estrutura
 
 ```
@@ -150,11 +199,17 @@ app/src/main/
     Phone.kt                     normalização, 9º dígito BR, validação branda, extração
     Countries.kt                 tabela embutida de países (bandeira derivada do ISO)
     ChatIntents.kt               link wa.me, compartilhar, copiar, pacotes instalados
+    Batch.kt                     lote: leitura da lista, nomes, personalização, relatório
+    BatchActivity.kt             três passos do lote, dados do treinamento, modelos e ajustes
+    BatchStore.kt                persistência do lote (SharedPreferences + JSON)
+    Training.kt                  leitura do arquivo de treinamento e modelo do RH
     Prefs.kt                     SharedPreferences + org.json (sem banco, sem rede)
     Shortcuts.kt                 atalho fixo via ShortcutManager
     Ui.kt                        tema, insets e padding simétrico das barras
-  res/layout/                    activity_main, activity_agenda, item_entry, dialog_settings
-  res/menu/                      main, agenda (inflados pelo PopupMenu)
+  res/layout/                    activity_main, activity_agenda, activity_batch,
+                                 item_entry, item_batch_*, dialog_settings, dialog_batch_settings
+  res/menu/                      main, agenda, batch (inflados pelo PopupMenu)
+  exemplos/treinamento.csv      modelo do segundo arquivo (dados do treinamento)
   res/xml/                       shortcuts, backup_rules, data_extraction_rules
   res/drawable/                  vidro (bg_*, btn_*) e ícones vetoriais (ic_menu, ic_shortcut)
   res/drawable-xxxhdpi/          ícone adaptativo em PNG (arte do balão) + monocromático

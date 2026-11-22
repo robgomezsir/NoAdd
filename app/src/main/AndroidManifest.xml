@@ -56,6 +56,12 @@
             android:exported="false"
             android:label="@string/agenda_title" />
 
+        <activity
+            android:name=".BatchActivity"
+            android:exported="false"
+            android:label="@string/batch_title"
+            android:windowSoftInputMode="adjustResize" />
+
         <activity-alias
             android:name=".TelAlias"
             android:enabled="false"

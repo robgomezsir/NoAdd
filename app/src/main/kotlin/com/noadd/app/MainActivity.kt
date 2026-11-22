@@ -83,6 +83,7 @@ class MainActivity : Activity() {
         })
 
         findViewById<View>(R.id.menuButton).setOnClickListener { showMenu() }
+        findViewById<View>(R.id.batchButton).setOnClickListener { openBatch() }
         findViewById<Button>(R.id.openButton).setOnClickListener { openFromForm() }
         findViewById<Button>(R.id.callButton).setOnClickListener { dialNumber() }
         findViewById<Button>(R.id.shareButton).setOnClickListener { shareLink() }
@@ -113,6 +114,10 @@ class MainActivity : Activity() {
         popup.menuInflater.inflate(R.menu.main, popup.menu)
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
+                R.id.menu_batch -> {
+                    openBatch()
+                    true
+                }
                 R.id.menu_agenda -> {
                     @Suppress("DEPRECATION")
                     startActivityForResult(Intent(this, AgendaActivity::class.java), REQ_AGENDA)
@@ -146,6 +151,10 @@ class MainActivity : Activity() {
     }
 
     // ----- Ações principais -----
+
+    private fun openBatch() {
+        startActivity(Intent(this, BatchActivity::class.java))
+    }
 
     private fun openFromForm() {
         val e164 = currentE164() ?: return
